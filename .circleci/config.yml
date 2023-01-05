@@ -14,6 +14,10 @@ jobs:
           name: run docker
           command: |
             ./gradlew createDockerfile
+      - run:
+          name: ls command
+          command: |
+              ls -lart
 workflows:
   my-workflow:
     jobs:
