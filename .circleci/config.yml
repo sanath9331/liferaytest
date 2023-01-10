@@ -2,11 +2,21 @@
 version: 2.1
 orbs:
   aws-ecr: circleci/aws-ecr@8.2.1
+  
+executors:
+  node:
+    docker:
+      - image: cimg/node:16.14
+  java:
+    docker:
+      - image: cimg/openjdk:17.0.3-node
 jobs:
   build:
     docker:
       - image: circleci/openjdk:8-jdk
-    working_directory: ~/repo
+#     working_directory: ~/repo
+    executor: java
+
     steps:
       - checkout
       - attach_workspace:
@@ -20,16 +30,28 @@ jobs:
           command: |
               ls -lart ./build/docker/
       - persist_to_workspace:
-          root: ~/repo
+          root: ./
           paths:
-            - build/*
-      - attach_workspace:
-              at: ./
+            - build
+  build_ls:
+    docker:
+      - image: circleci/openjdk:8-jdk
+    executor: java
+    steps:
+      - run:
+          name: ls command
+          command: |
+              ls -lart ./build/docker/
+                        
 workflows:
   my-workflow:
     jobs:
       - build:
            name: "Build"
+      - build_ls:
+          name: "Build ls"
+          requires:
+            - "Build"
       - aws-ecr/build-and-push-image:
 #           aws-access-key-id: AWS_ACCESS_KEY_ID
 #           aws-secret-access-key: AWS_ACCESS_KEY_ID
@@ -41,3 +63,4 @@ workflows:
 #           region: eu-west-1
           requires:
             - "Build"
+            - "Build ls"
