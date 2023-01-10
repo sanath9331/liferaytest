@@ -2,11 +2,14 @@
 version: 2.1
 orbs:
   aws-ecr: circleci/aws-ecr@6.15.0
-  
 jobs:
   build:
     docker:
       - image: circleci/openjdk:8-jdk
+    working_directory: ~/repo
+    environment:
+      JVM_OPTS: -Xmx3200m
+      TERM: dumb
 #     working_directory: ~/repo
     steps:
       - checkout
@@ -29,9 +32,12 @@ workflows:
     jobs:
       - build:
       - aws-ecr/build-and-push-image:
-          repo: life-pipeline
+#           aws-access-key-id: AWS_ACCESS_KEY_ID
+#           aws-secret-access-key: AWS_ACCESS_KEY_ID
           dockerfile: build/docker/Dockerfile
           registry-id: AWS_ECR_REGISTRY_ID
           path: .
+          repo: life-pipeline
+#           region: eu-west-1
           requires:
             - "build"
