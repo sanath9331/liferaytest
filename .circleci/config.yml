@@ -41,7 +41,7 @@ jobs:
       - run:
           name: ls command
           command: |
-              ls -lart ./build/docker/
+              ls -lart
                         
 workflows:
   my-workflow:
