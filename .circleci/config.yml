@@ -6,6 +6,7 @@ jobs:
   build:
     docker:
       - image: circleci/openjdk:8-jdk
+    working_directory: ~/repo
     steps:
       - checkout
       - attach_workspace:
@@ -19,7 +20,7 @@ jobs:
           command: |
               ls -lart ./build/docker/
       - persist_to_workspace:
-          root: ./
+          root: ~/repo
           paths:
             - build/*
       - attach_workspace:
