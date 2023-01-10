@@ -22,6 +22,8 @@ jobs:
           root: ./
           paths:
             - build/*
+       - attach_workspace:
+              at: ./
 workflows:
   my-workflow:
     jobs:
