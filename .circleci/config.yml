@@ -33,7 +33,7 @@ workflows:
 #           aws-access-key-id: AWS_ACCESS_KEY_ID
 #           aws-secret-access-key: AWS_ACCESS_KEY_ID
           dockerfile: ./build/docker
-#           registry-id: AWS_ECR_REGISTRY_ID
+          registry-id: AWS_ECR_REGISTRY_ID
           repo: life-pipeline
 #           region: eu-west-1
           requires:
