@@ -16,6 +16,8 @@ jobs:
     docker:
       - image: circleci/openjdk:8-jdk
 #     working_directory: ~/repo
+    executor: java
+
     steps:
       - checkout
       - attach_workspace:
