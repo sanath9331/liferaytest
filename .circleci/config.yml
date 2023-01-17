@@ -1,25 +1,10 @@
 version: 2.1
-
 commands:
-  print:
+  copy-markdown:
     parameters:
-      message:
+      destination:
+        description: destination directory
         type: string
+        default: docs
     steps:
-      - run: echo << parameters.message >>
-
-jobs:
-  daily-message:
-    machine: true
-    parameters:
-      message:
-        type: string
-    steps:
-      - print:
-          message: Printing << parameters.message >>
-
-workflows:
-  my-workflow:
-    jobs:
-      - daily-message:
-         message: echo << parameters.message >>
+      - run: cp *.md << parameters.destination >>
