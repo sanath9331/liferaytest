@@ -1,66 +1,15 @@
----
 version: 2.1
-orbs:
-  aws-ecr: circleci/aws-ecr@8.2.1
-  
-executors:
-  node:
-    docker:
-      - image: cimg/node:16.14
-  java:
-    docker:
-      - image: cimg/openjdk:17.0.3-node
+
 jobs:
   build:
     docker:
-      - image: circleci/openjdk:8-jdk
-#     working_directory: ~/repo
-    executor: java
-
+      - image: cimg/node:17.0
+        auth:
+          username: mydockerhub-user
+          password: $DOCKERHUB_PASSWORD  # context / project UI env-var reference
+    environment:
+      CIRCLE_COMPARE_URL: << pipeline.project.git_url >>/compare/<< pipeline.git.base_revision >>..<<pipeline.git.revision>>
+    working_directory: ~/main
     steps:
-      - checkout
-      - attach_workspace:
-          at: ./
-      - run:
-          name: run docker
-          command: |
-            ./gradlew createDockerfile
-      - run:
-          name: ls command
-          command: |
-              ls -lart ./build/docker/
-      - persist_to_workspace:
-          root: ./
-          paths:
-            - build
-  build_ls:
-    docker:
-      - image: circleci/openjdk:8-jdk
-    executor: java
-    steps:
-      - run:
-          name: ls command
-          command: |
-              ls -lart
-                        
-workflows:
-  my-workflow:
-    jobs:
-      - build:
-           name: "Build"
-      - build_ls:
-          name: "Build ls"
-          requires:
-            - "Build"
-      - aws-ecr/build-and-push-image:
-#           aws-access-key-id: AWS_ACCESS_KEY_ID
-#           aws-secret-access-key: AWS_ACCESS_KEY_ID
-          dockerfile: build/docker/Dockerfile
-          registry-id: AWS_ECR_REGISTRY_ID
-          path: .
-#           dockerfile-path: ./build/docker
-          repo: life-pipeline
-#           region: eu-west-1
-          requires:
-            - "Build"
-            - "Build ls"
+      - run: echo "This is pipeline ID << pipeline.id >>"
+      - run: echo $CIRCLE_COMPARE_URL
