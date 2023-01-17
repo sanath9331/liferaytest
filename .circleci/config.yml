@@ -1,10 +1,16 @@
 version: 2.1
-commands:
-  copy-markdown:
+jobs:
+  build:
     parameters:
-      destination:
-        description: destination directory
-        type: string
-        default: docs
+      p:
+        type: integer
+        default: 1
+    parallelism: << parameters.p >>
+    machine: true
     steps:
-      - run: cp *.md << parameters.destination >>
+      - checkout
+workflows:
+  workflow:
+    jobs:
+      - build:
+          p: 2
