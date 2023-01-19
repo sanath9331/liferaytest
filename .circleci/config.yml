@@ -1,4 +1,15 @@
 version: 2.1
+
+parameters:
+  deploy:
+    type: boolean
+    default: false
+  environment_ecs:
+    type: string
+    default: ""
+  app_version:
+    type: string
+    default: ""
 jobs:
   build:
     parameters:
@@ -9,6 +20,10 @@ jobs:
     machine: true
     steps:
       - checkout
+      - run:
+          name: ls command for jar
+          command: |
+              ls <<pipeline.parameters.environment_ecs>>
 workflows:
   workflow:
     jobs:
