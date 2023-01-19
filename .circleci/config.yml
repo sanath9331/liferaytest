@@ -42,10 +42,10 @@ workflows:
     triggers: #use the triggers key to indicate a scheduled build
       - schedule:
           cron: "5 * * * *" # use cron syntax to set the schedule
-          filters:
-            branches:
-              only:
-                - master
+        filters:
+        branches:
+           only:
+             - master
     jobs:
 #       - deploy_dev_approval:
 #           name: "Deploy dev approval"
