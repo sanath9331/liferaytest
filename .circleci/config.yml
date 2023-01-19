@@ -14,8 +14,14 @@ parameters:
     type: boolean
     default: false
     
+    
+executors:
+  java:
+    docker:
+      - image: cimg/openjdk:11.0-node
 jobs:
   build:
+    executor: java
     steps:
       - checkout
       - run:
