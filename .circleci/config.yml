@@ -26,16 +26,11 @@ workflows:
     when:
       not: << pipeline.parameters.run-schedule >>
     jobs:
-#       - deploy_dev_approval:
-#           name: "Deploy dev approval"
-#           type: approval
       - build
           filters:
             branches:
               only:
                 - main
-#         requires:
-#             - "Deploy dev approval"
 
   nightly-snapshot:
     when: << pipeline.parameters.run-schedule >>
