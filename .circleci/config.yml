@@ -10,14 +10,11 @@ parameters:
   app_version:
     type: string
     default: ""
+  run-schedule:
+    type: boolean
+    default: false
 jobs:
   build:
-    parameters:
-      p:
-        type: integer
-        default: 1
-    parallelism: << parameters.p >>
-    machine: true
     steps:
       - checkout
       - run:
@@ -25,16 +22,40 @@ jobs:
           command: |
               ls <<pipeline.parameters.environment_ecs>>
 workflows:
-  workflow:
+  build-test-deploy:
+    when:
+      not: << pipeline.parameters.run-schedule >>
     jobs:
 #       - deploy_dev_approval:
 #           name: "Deploy dev approval"
 #           type: approval
-      - build:
-          p: 2
+      - build
+          filters:
+          branches:
+            only:
+              - main
+#         requires:
+#             - "Deploy dev approval"
+
+  nightly-snapshot:
+    when: << pipeline.parameters.run-schedule >>
+    triggers: #use the triggers key to indicate a scheduled build
+      - schedule:
+          cron: "5 * * * *" # use cron syntax to set the schedule
           filters:
             branches:
               only:
-                - main
-#           requires:
+                - master
+    jobs:
+#       - deploy_dev_approval:
+#           name: "Deploy dev approval"
+#           type: approval
+      - build
+          filters:
+          branches:
+            only:
+              - main
+#         requires:
 #             - "Deploy dev approval"
+
+
