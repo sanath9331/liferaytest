@@ -27,6 +27,9 @@ jobs:
 workflows:
   workflow:
     jobs:
+      - deploy_dev_approval:
+          name: "Deploy dev approval"
+          type: approval
       - build:
           p: 2
           filters:
