@@ -31,9 +31,9 @@ workflows:
 #           type: approval
       - build
           filters:
-          branches:
-            only:
-              - main
+            branches:
+              only:
+                - main
 #         requires:
 #             - "Deploy dev approval"
 
@@ -43,8 +43,8 @@ workflows:
       - schedule:
           cron: "5 * * * *" # use cron syntax to set the schedule
         filters:
-        branches:
-           only:
+          branches:
+            only:
              - master
     jobs:
 #       - deploy_dev_approval:
@@ -52,9 +52,9 @@ workflows:
 #           type: approval
       - build
           filters:
-          branches:
-            only:
-              - main
+            branches:
+              only:
+               - main
 #         requires:
 #             - "Deploy dev approval"
 
