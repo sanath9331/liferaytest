@@ -33,19 +33,19 @@ workflows:
     when:
       and:
         - equal: [main, <<pipeline.git.branch>>]
-        - not: << pipeline.parameters.run-schedule >>
+#         - not: << pipeline.parameters.run-schedule >>
     jobs:
       - build
 
   nightly-snapshot:
-    when: << pipeline.parameters.run-schedule >>
+#     when: << pipeline.parameters.run-schedule >>
+    when:
+      and:
+        - equal: [master, <<pipeline.git.branch>>]
+#         - equal: << pipeline.parameters.run-schedule >> 
     triggers: #use the triggers key to indicate a scheduled build
       - schedule:
           cron: "5 * * * *" # use cron syntax to set the schedule
-          filters:
-            branches:
-              only:
-                - master
         
     jobs:
       - build
