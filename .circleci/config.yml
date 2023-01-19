@@ -36,20 +36,10 @@ nightly-snapshot:
     triggers: #use the triggers key to indicate a scheduled build
       - schedule:
           cron: "5 * * * *" # use cron syntax to set the schedule
-        filters:
-          branches:
-            only:
-             - master
-    jobs:
-#       - deploy_dev_approval:
-#           name: "Deploy dev approval"
-#           type: approval
-      - build
           filters:
             branches:
               only:
-               - main
-#         requires:
-#             - "Deploy dev approval"
-
-
+                - master
+        
+    jobs:
+      - build
