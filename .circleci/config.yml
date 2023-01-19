@@ -24,15 +24,13 @@ jobs:
 workflows:
   build-test-deploy:
     when:
-      not: << pipeline.parameters.run-schedule >>
+      and:
+        - equal: [main, <<pipeline.git.branch>>]
+        - not: << pipeline.parameters.run-schedule >>
     jobs:
       - build
-          filters:
-            branches:
-              only:
-                - main
 
-  nightly-snapshot:
+ nightly-snapshot:
     when: << pipeline.parameters.run-schedule >>
     triggers: #use the triggers key to indicate a scheduled build
       - schedule:
