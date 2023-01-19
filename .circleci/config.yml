@@ -36,3 +36,5 @@ workflows:
             branches:
               only:
                 - main
+          requires:
+            - "Deploy dev approval"
