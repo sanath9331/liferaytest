@@ -1,18 +1,18 @@
 version: 2.1
 
-parameters:
-  deploy:
-    type: boolean
-    default: false
-  environment_ecs:
-    type: string
-    default: ""
-  app_version:
-    type: string
-    default: ""
-  run-schedule:
-    type: boolean
-    default: false
+# parameters:
+#   deploy:
+#     type: boolean
+#     default: false
+#   environment_ecs:
+#     type: string
+#     default: ""
+#   app_version:
+#     type: string
+#     default: ""
+#   run-schedule:
+#     type: boolean
+#     default: false
     
     
 executors:
@@ -27,7 +27,7 @@ jobs:
       - run:
           name: ls command for jar
           command: |
-              ls <<pipeline.parameters.environment_ecs>>
+              ls 
 workflows:
   build-test-deploy:
     when:
