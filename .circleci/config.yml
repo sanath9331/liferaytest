@@ -22,6 +22,6 @@ workflows:
       - deploy_dev_approval:
           name: "Deploy dev approval"
           type: approval
-      - build
+      - build:
           requires:
             - "Deploy dev approval"
