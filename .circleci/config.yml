@@ -19,4 +19,7 @@ workflows:
       and:
         - equal: [main, <<pipeline.git.branch>>]
     jobs:
+      - deploy_dev_approval:
+          name: "Deploy dev approval"
+          type: approval
       - build
