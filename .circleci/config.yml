@@ -1,20 +1,5 @@
 version: 2.1
-
-# parameters:
-#   deploy:
-#     type: boolean
-#     default: false
-#   environment_ecs:
-#     type: string
-#     default: ""
-#   app_version:
-#     type: string
-#     default: ""
-#   run-schedule:
-#     type: boolean
-#     default: false
-    
-    
+        
 executors:
   java:
     docker:
@@ -33,19 +18,5 @@ workflows:
     when:
       and:
         - equal: [main, <<pipeline.git.branch>>]
-#         - not: << pipeline.parameters.run-schedule >>
-    jobs:
-      - build
-
-  nightly-snapshot:
-#     when: << pipeline.parameters.run-schedule >>
-    when:
-      and:
-        - equal: [master, <<pipeline.git.branch>>]
-#         - equal: << pipeline.parameters.run-schedule >> 
-    triggers: #use the triggers key to indicate a scheduled build
-      - schedule:
-          cron: "5 * * * *" # use cron syntax to set the schedule
-        
     jobs:
       - build
